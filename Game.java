@@ -34,23 +34,27 @@ public class Game
      */
     private void createRooms()
     {
-        Room outside, theater, pub, lab, office;
+        Room calabozo, torreon, patio, establos, granSalonReal, capilla, cocina;
       
         // create the rooms
-        outside = new Room("outside the main entrance of the university");
-        theater = new Room("in a lecture theater");
-        pub = new Room("in the campus pub");
-        lab = new Room("in a computing lab");
-        office = new Room("in the computing admin office");
+        calabozo = new Room("el calabozo");
+        torreon = new Room("el torreon");
+        patio = new Room("el patio");
+        establos = new Room("los establos");
+        granSalonReal = new Room("el gran salon real");
+        capilla = new Room("la capilla");
+        cocina = new Room("la cocina");
         
         // initialise room exits
-        outside.setExits(null, theater, lab, pub);
-        theater.setExits(null, null, null, outside);
-        pub.setExits(null, outside, null, null);
-        lab.setExits(outside, office, null, null);
-        office.setExits(null, null, null, lab);
+        calabozo.setExits(torreon, null, null, null);
+        torreon.setExits(null, patio, calabozo, null);
+        patio.setExits(granSalonReal, establos, null, torreon);
+        establos.setExits(null, null, null, patio);
+        granSalonReal.setExits(null, cocina, patio, capilla);
+        capilla.setExits(null, granSalonReal, null, null);
+        cocina.setExits(null, null, null, capilla);
 
-        currentRoom = outside;  // start game outside
+        currentRoom = calabozo;  // start game outside
     }
 
     /**
@@ -81,8 +85,8 @@ public class Game
         System.out.println("World of Zuul is a new, incredibly boring adventure game.");
         System.out.println("Type 'help' if you need help.");
         System.out.println();
-        System.out.println("You are " + currentRoom.getDescription());
-        System.out.print("Exits: ");
+        System.out.println("Estas en " + currentRoom.getDescription());
+        System.out.print("Salidas: ");
         if(currentRoom.northExit != null) {
             System.out.print("north ");
         }
@@ -176,8 +180,8 @@ public class Game
         }
         else {
             currentRoom = nextRoom;
-            System.out.println("You are " + currentRoom.getDescription());
-            System.out.print("Exits: ");
+            System.out.println("Estas en " + currentRoom.getDescription());
+            System.out.print("Salidas: ");
             if(currentRoom.northExit != null) {
                 System.out.print("north ");
             }
