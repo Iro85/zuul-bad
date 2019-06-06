@@ -34,7 +34,7 @@ public class Game
      */
     private void createRooms()
     {
-        Room calabozo, torreon, patio, establos, granSalonReal, capilla, cocina;
+        Room calabozo, torreon, patio, establos, granSalonReal, capilla, cocina, pozo, herreria, puertaDeEntrada;
 
         // create the rooms
         calabozo = new Room("el calabozo");
@@ -44,17 +44,23 @@ public class Game
         granSalonReal = new Room("el gran salon real");
         capilla = new Room("la capilla");
         cocina = new Room("la cocina");
+        pozo = new Room("el pozo");
+        herreria = new Room("la herreria");
+        puertaDeEntrada = new Room("la puerta de entrada");
 
         // initialise room exits
-        calabozo.setExits(torreon, null, null, null);
-        torreon.setExits(null, patio, calabozo, null);
-        patio.setExits(granSalonReal, establos, null, torreon);
-        establos.setExits(null, null, null, patio);
-        granSalonReal.setExits(null, cocina, patio, capilla);
-        capilla.setExits(null, granSalonReal, null, null);
-        cocina.setExits(null, null, null, capilla);
-
-        currentRoom = calabozo;  // start game outside
+        calabozo.setExits(torreon, null, null, null, null, null, null, null);
+        torreon.setExits(pozo, patio, calabozo, null, null, null, null, null);
+        patio.setExits(granSalonReal, herreria, puertaDeEntrada, torreon, null, null, null, pozo);
+        establos.setExits(null, null, null, null, null, null, null, patio);
+        granSalonReal.setExits(null, cocina, patio, capilla, null, null, null, null);
+        capilla.setExits(null, granSalonReal, null, null, null, null, null, null);
+        cocina.setExits(null, null, null, capilla, null, null, null, null);
+        pozo.setExits(null, null, torreon, null, null, null, null, null);
+        herreria.setExits(null, null, null, patio, null, null, establos, null);
+        puertaDeEntrada.setExits(patio, null, null, null, null, null, null, null);
+        
+        currentRoom = calabozo;  // start game calabozo
     }
 
     /**
@@ -160,7 +166,19 @@ public class Game
         if(direction.equals("west")) {
             nextRoom = currentRoom.westExit;
         }
-
+        if(direction.equals("northeast")) {
+            nextRoom = currentRoom.westExit;
+        }
+        if(direction.equals("southeast")) {
+            nextRoom = currentRoom.westExit;
+        }
+        if(direction.equals("southwest")) {
+            nextRoom = currentRoom.westExit;
+        }
+        if(direction.equals("northwest")) {
+            nextRoom = currentRoom.westExit;
+        }
+        
         if (nextRoom == null) {
             System.out.println("There is no door!");
         }
@@ -203,6 +221,18 @@ public class Game
         }
         if(currentRoom.westExit != null) {
             System.out.print("west ");
+        }
+        if(currentRoom.northEastExit != null) {
+            System.out.print("northeast ");
+        }
+        if(currentRoom.southEastExit != null) {
+            System.out.print("southeast ");
+        }
+        if(currentRoom.southWestExit != null) {
+            System.out.print("southwest ");
+        }
+        if(currentRoom.northWestExit != null) {
+            System.out.print("northwest ");
         }
         System.out.println();
     }
