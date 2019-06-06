@@ -49,17 +49,26 @@ public class Game
         puertaDeEntrada = new Room("la puerta de entrada");
 
         // initialise room exits
-        calabozo.setExits(torreon, null, null, null, null, null, null, null);
-        torreon.setExits(pozo, patio, calabozo, null, null, null, null, null);
-        patio.setExits(granSalonReal, herreria, puertaDeEntrada, torreon, null, null, null, pozo);
-        establos.setExits(null, null, null, null, null, null, null, patio);
-        granSalonReal.setExits(null, cocina, patio, capilla, null, null, null, null);
-        capilla.setExits(null, granSalonReal, null, null, null, null, null, null);
-        cocina.setExits(null, null, null, capilla, null, null, null, null);
-        pozo.setExits(null, null, torreon, null, null, null, null, null);
-        herreria.setExits(null, null, null, patio, null, null, establos, null);
-        puertaDeEntrada.setExits(patio, null, null, null, null, null, null, null);
-        
+        calabozo.setExit("north", torreon);
+        torreon.setExit("north", pozo);
+        torreon.setExit("east", patio);
+        torreon.setExit("south", calabozo);
+        patio.setExit("north", granSalonReal);
+        patio.setExit("east", herreria);
+        patio.setExit("south", puertaDeEntrada);
+        patio.setExit("west", torreon);
+        patio.setExit("northwest", pozo);
+        establos.setExit("northwest", patio);
+        granSalonReal.setExit("east", cocina);
+        granSalonReal.setExit("south", patio);
+        granSalonReal.setExit("west", capilla);
+        capilla.setExit("east", granSalonReal);
+        cocina.setExit("west", granSalonReal);
+        pozo.setExit("south", torreon);
+        herreria.setExit("west", patio);
+        herreria.setExit("southwest", establos);
+        puertaDeEntrada.setExit("north", patio);
+                
         currentRoom = calabozo;  // start game calabozo
     }
 
