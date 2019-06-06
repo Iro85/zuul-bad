@@ -14,15 +14,15 @@
  */
 public class Room 
 {
-    public String description;
-    public Room northExit;
-    public Room southExit;
-    public Room eastExit;
-    public Room westExit;
-    public Room northEastExit;
-    public Room southEastExit;
-    public Room southWestExit;
-    public Room northWestExit;
+    private String description;
+    private Room northExit;
+    private Room southExit;
+    private Room eastExit;
+    private Room westExit;
+    private Room northEastExit;
+    private Room southEastExit;
+    private Room southWestExit;
+    private Room northWestExit;
 
     /**
      * Create a room described "description". Initially, it has
@@ -71,4 +71,50 @@ public class Room
         return description;
     }
 
+    /**
+     * @param The direction we want to go.
+     * @return The Room of the exit.
+     */
+    public Room getExit(String direction){
+        Room exit = null;
+        switch(direction){
+            case "north" : exit = northExit; break;
+            case "east" : exit = eastExit; break;
+            case "south" : exit = southExit; break;
+            case "west" : exit = westExit; break;
+            case "northeast" : exit = northEastExit; break;
+            case "southeast" : exit = southEastExit; break;
+            case "southwest" : exit = southWestExit; break;
+            case "northwest" : exit = northWestExit; break;
+            default : exit = null; break;
+        }
+        return exit;
+    }
+
+    /**
+     * Devuelve la información de las salidas existentes
+     * Por ejemplo: "Exits: north east west"
+     *
+     * @return Una descripción de las salidas existentes.
+     */
+    public String getExitString(){
+        String exits = "";
+        if(northExit != null)
+            exits += " north";
+        if(eastExit != null)
+            exits += " east";
+        if(southExit != null)
+            exits += " south";
+        if(westExit != null)
+            exits += " west";
+        if(northEastExit != null)
+            exits += " northEast";
+        if(southEastExit != null)
+            exits += " southEast";
+        if(southWestExit != null)
+            exits += " southWest";
+        if(northWestExit != null)
+            exits += " northWest";
+        return exits;
+    }
 }
