@@ -17,8 +17,7 @@ public class Room
 {
     private String description;
     private HashMap<String, Room> roomExits;
-    private String itemDescription;
-    private int itemWeight;
+    private ArrayList<Item> listItem;
     
     /**
      * Create a room described "description". Initially, it has
@@ -30,8 +29,13 @@ public class Room
     {
         this.description = description;
         roomExits = new HashMap<String, Room>();
+        listItem = new ArrayList<Item>();
     }
-
+    
+    public void addItem(Item item){
+        listItem.add(item);
+    }
+    
     /**
      * Define una salida para la habitacion.
      * @param direction El nombre de la direccion de la salida
@@ -39,32 +43,6 @@ public class Room
      */
     public void setExit(String direction, Room neighbor){
         roomExits.put(direction, neighbor);
-    }
-    
-    /**
-     * Define un objeto para la habitacion.
-     * @param description  La descripcion del objeto.
-     * @param weight  El peso del objeto.
-     */
-    public void setItem (String description, int weight){
-        this.itemDescription = description;
-        this.itemWeight = weight;
-    }
-    
-    /**
-     * @return La descripcion del objeto.
-     */
-    public String getItemDescription()
-    {
-        return itemDescription;
-    }
-    
-    /**
-     * @return El peso del objeto.
-     */
-    public int getItemWeight()
-    {
-        return itemWeight;
     }
     
     /**
@@ -106,8 +84,8 @@ public class Room
      */
     public String getLongDescription(){
         String longDescription = "\nEstas en " + getDescription() + "\n";
-        if(this.itemWeight > 0){
-            longDescription += "Contiene " + this.itemDescription + " cuyo peso es de " + this.itemWeight + "\n";
+        for(Item itemTemp : listItem){
+            longDescription += "Contiene " + itemTemp.getItemDescription() + " cuyo peso es de " + itemTemp.getItemWeight() + "\n";
         }
         longDescription += "Salidas:" + getExitString() + "\n";
         return longDescription;

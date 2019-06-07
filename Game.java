@@ -49,13 +49,13 @@ public class Game
         puertaDeEntrada = new Room("la puerta de entrada");
         
         // inicializamos los objetos de las salas
-        calabozo.setItem("cadenas", 10);
-        patio.setItem("banco de madera", 20);
-        establos.setItem("montura", 5);
-        granSalonReal.setItem("trono", 50);
-        capilla.setItem("cruz", 25);
-        cocina.setItem("cazuela", 10);
-        herreria.setItem("maza", 15);
+        calabozo.addItem(new Item ("cadenas", 10));
+        patio.addItem(new Item ("banco de madera", 20));
+        establos.addItem(new Item ("montura", 5));
+        granSalonReal.addItem(new Item ("trono", 50));
+        capilla.addItem(new Item ("cruz", 25));
+        cocina.addItem(new Item ("cazuela", 10));
+        herreria.addItem(new Item ("maza", 15));
         
         // initialise room exits
         calabozo.setExit("north", torreon);
