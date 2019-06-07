@@ -68,7 +68,7 @@ public class Game
         herreria.setExit("west", patio);
         herreria.setExit("southwest", establos);
         puertaDeEntrada.setExit("north", patio);
-                
+
         currentRoom = calabozo;  // start game calabozo
     }
 
@@ -124,6 +124,9 @@ public class Game
         else if (commandWord.equals("go")) {
             goRoom(command);
         }
+        else if (commandWord.equals("look")) {	
+            look();
+        }
         else if (commandWord.equals("quit")) {
             wantToQuit = quit(command);
         }
@@ -163,7 +166,7 @@ public class Game
 
         // Try to leave current room.
         Room nextRoom = currentRoom.getExit(direction);
-        
+
         if (nextRoom == null) {
             System.out.println("There is no door!");
         }
@@ -193,6 +196,10 @@ public class Game
      * Print information of the location
      */
     private void printLocationInfo(){
+        System.out.println(currentRoom.getLongDescription());
+    }
+
+    private void look() {	
         System.out.println(currentRoom.getLongDescription());
     }
 }
