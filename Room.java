@@ -17,7 +17,9 @@ public class Room
 {
     private String description;
     private HashMap<String, Room> roomExits;
-
+    private String itemDescription;
+    private int itemWeight;
+    
     /**
      * Create a room described "description". Initially, it has
      * no exits. "description" is something like "a kitchen" or
@@ -38,7 +40,33 @@ public class Room
     public void setExit(String direction, Room neighbor){
         roomExits.put(direction, neighbor);
     }
-
+    
+    /**
+     * Define un objeto para la habitacion.
+     * @param description  La descripcion del objeto.
+     * @param weight  El peso del objeto.
+     */
+    public void setItem (String description, int weight){
+        this.itemDescription = description;
+        this.itemWeight = weight;
+    }
+    
+    /**
+     * @return La descripcion del objeto.
+     */
+    public String getItemDescription()
+    {
+        return itemDescription;
+    }
+    
+    /**
+     * @return El peso del objeto.
+     */
+    public int getItemWeight()
+    {
+        return itemWeight;
+    }
+    
     /**
      * @return The description of the room.
      */
@@ -77,6 +105,11 @@ public class Room
      * @return Una descripcion de la habitacion incluyendo sus salidas
      */
     public String getLongDescription(){
-        return "\nEstas en " + getDescription() + "\nSalidas:" + getExitString() + "\n";
+        String longDescription = "\nEstas en " + getDescription() + "\n";
+        if(this.itemWeight > 0){
+            longDescription += "Contiene " + this.itemDescription + " cuyo peso es de " + this.itemWeight + "\n";
+        }
+        longDescription += "Salidas:" + getExitString() + "\n";
+        return longDescription;
     }
 }

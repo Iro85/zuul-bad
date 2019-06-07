@@ -47,7 +47,16 @@ public class Game
         pozo = new Room("el pozo");
         herreria = new Room("la herreria");
         puertaDeEntrada = new Room("la puerta de entrada");
-
+        
+        // inicializamos los objetos de las salas
+        calabozo.setItem("cadenas", 10);
+        patio.setItem("banco de madera", 20);
+        establos.setItem("montura", 5);
+        granSalonReal.setItem("trono", 50);
+        capilla.setItem("cruz", 25);
+        cocina.setItem("cazuela", 10);
+        herreria.setItem("maza", 15);
+        
         // initialise room exits
         calabozo.setExit("north", torreon);
         torreon.setExit("north", pozo);
@@ -201,11 +210,17 @@ public class Game
     private void printLocationInfo(){
         System.out.println(currentRoom.getLongDescription());
     }
-
+    
+    /** 
+     * Print information of the location
+     */
     private void look() {	
         System.out.println(currentRoom.getLongDescription());
     }
     
+    /** 
+     * Imprime un texto sobre la accion de comer
+     */
     private void eat(){
         System.out.println("You have eaten now and you are not hungry any more");
     }
