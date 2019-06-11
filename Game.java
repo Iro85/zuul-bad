@@ -55,14 +55,17 @@ public class Game{
         granSalonReal.addItem(new Item ("trono", "trono del rey", 50, false));
         capilla.addItem(new Item ("cruz", "cruz cristiana", 25, false));
         capilla.addItem(new Item ("caliz", "caliz sagrado", 5, true));
+        capilla.addItem(new Item ("virgen", "estatua de la virgen maria", 35, false));
         capilla.addItem(new Item ("bancos", "bancos antiguos", 60, false));
         cocina.addItem(new Item ("cazuela", "cazuela mediana", 10, true));
         cocina.addItem(new Item ("mesa", "mesa alargada", 20, false));
         cocina.addItem(new Item ("sarten", "sarten grande", 5, true));
+        cocina.addItem(new Item ("barril", "barril de cerveza", 40, false));
         herreria.addItem(new Item ("maza", "maza oscura", 15, true));
         herreria.addItem(new Item ("espada", "espada grande a 2 manos", 10, true));
         herreria.addItem(new Item ("escudo", "escudo reforzado", 10, true));
-
+        herreria.addItem(new Item ("horno", "horno incandescente", 80, false));
+        
         // initialise room exits
         calabozo.setExit("north", torreon);
         torreon.setExit("north", pozo);
