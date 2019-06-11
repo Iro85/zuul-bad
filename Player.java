@@ -179,7 +179,7 @@ public class Player{
      * Metodo que nos muestra los items de la mochila en el caso de que los haya.
      */
     public void items(){
-        //SI hay objetos los mostramos junto con sus caracteristicas y el peso total que haya
+        //Si hay objetos los mostramos junto con sus caracteristicas y el peso total que haya
         if(itemBackpack.size() > 0){
             System.out.println("Tienes en la mochila:");
             for(Item itemTemp : itemBackpack){
