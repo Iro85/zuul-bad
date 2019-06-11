@@ -13,8 +13,7 @@ import java.util.*;
  * @author  Michael Kölling and David J. Barnes
  * @version 2011.07.31
  */
-public class Room 
-{
+public class Room{
     // Descripcion de la habitacion
     private String description;
     // Salidas de la habitacion
