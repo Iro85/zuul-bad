@@ -9,8 +9,7 @@
  * @author  Héctor Robles de Paz
  * @version 2019.06.10
  */
-public class Item
-{
+public class Item{
     private String id;
     private String itemDescription;
     private int itemWeight;
