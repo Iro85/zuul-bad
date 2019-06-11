@@ -1,3 +1,4 @@
+import java.util.*;
 /**
  *  This class is the main class of the "World of Zuul" application. 
  *  "World of Zuul" is a very simple, text based adventure game.  Users 
@@ -18,39 +19,73 @@
 public class Game 
 {
     private Parser parser;
-    private Room currentRoom;
-        
+    //Jugador
+    private Player zuulPlayer;
+
     /**
      * Create the game and initialise its internal map.
      */
-    public Game() 
-    {
-        createRooms();
+    public Game(){
         parser = new Parser();
+        zuulPlayer = new Player(createRooms());
     }
 
     /**
      * Create all the rooms and link their exits together.
      */
-    private void createRooms()
-    {
-        Room outside, theater, pub, lab, office;
-      
-        // create the rooms
-        outside = new Room("outside the main entrance of the university");
-        theater = new Room("in a lecture theater");
-        pub = new Room("in the campus pub");
-        lab = new Room("in a computing lab");
-        office = new Room("in the computing admin office");
-        
-        // initialise room exits
-        outside.setExits(null, theater, lab, pub);
-        theater.setExits(null, null, null, outside);
-        pub.setExits(null, outside, null, null);
-        lab.setExits(outside, office, null, null);
-        office.setExits(null, null, null, lab);
+    private Room createRooms(){
+        Room calabozo, torreon, patio, establos, granSalonReal, capilla, cocina, pozo, herreria, puertaDeEntrada;
 
-        currentRoom = outside;  // start game outside
+        // create the rooms
+        calabozo = new Room("el calabozo");
+        torreon = new Room("el torreon");
+        patio = new Room("el patio");
+        establos = new Room("los establos");
+        granSalonReal = new Room("el gran salon real");
+        capilla = new Room("la capilla");
+        cocina = new Room("la cocina");
+        pozo = new Room("el pozo");
+        herreria = new Room("la herreria");
+        puertaDeEntrada = new Room("la puerta de entrada");
+
+        // inicializamos los objetos de las salas
+        calabozo.addItem(new Item ("cadenas", "cadenas de metal", 10, true));
+        calabozo.addItem(new Item ("grilletes", "grilletes oxidados", 5, true));
+        patio.addItem(new Item ("banco", "banco de madera", 30, false));
+        establos.addItem(new Item ("montura", "montura de cuero", 5, true));
+        granSalonReal.addItem(new Item ("trono", "trono del rey", 50, false));
+        capilla.addItem(new Item ("cruz", "cruz cristiana", 25, false));
+        capilla.addItem(new Item ("caliz", "caliz sagrado", 5, true));
+        capilla.addItem(new Item ("bancos", "bancos antiguos", 60, false));
+        cocina.addItem(new Item ("cazuela", "cazuela mediana", 10, true));
+        cocina.addItem(new Item ("mesa", "mesa alargada", 20, false));
+        cocina.addItem(new Item ("sarten", "sarten grande", 5, true));
+        herreria.addItem(new Item ("maza", "maza oscura", 15, true));
+        herreria.addItem(new Item ("espada", "espada grande a 2 manos", 10, true));
+        herreria.addItem(new Item ("escudo", "escudo reforzado", 10, true));
+
+        // initialise room exits
+        calabozo.setExit("north", torreon);
+        torreon.setExit("north", pozo);
+        torreon.setExit("east", patio);
+        torreon.setExit("south", calabozo);
+        patio.setExit("north", granSalonReal);
+        patio.setExit("east", herreria);
+        patio.setExit("south", puertaDeEntrada);
+        patio.setExit("west", torreon);
+        patio.setExit("northwest", pozo);
+        establos.setExit("northwest", patio);
+        granSalonReal.setExit("east", cocina);
+        granSalonReal.setExit("south", patio);
+        granSalonReal.setExit("west", capilla);
+        capilla.setExit("east", granSalonReal);
+        cocina.setExit("west", granSalonReal);
+        pozo.setExit("south", torreon);
+        herreria.setExit("west", patio);
+        herreria.setExit("southwest", establos);
+        puertaDeEntrada.setExit("north", patio);
+
+        return calabozo;  // start game calabozo
     }
 
     /**
@@ -62,13 +97,13 @@ public class Game
 
         // Enter the main command loop.  Here we repeatedly read commands and
         // execute them until the game is over.
-                
+
         boolean finished = false;
         while (! finished) {
             Command command = parser.getCommand();
             finished = processCommand(command);
         }
-        System.out.println("Thank you for playing.  Good bye.");
+        System.out.println("Gracias por jugar. Hasta luego.");
     }
 
     /**
@@ -77,25 +112,11 @@ public class Game
     private void printWelcome()
     {
         System.out.println();
-        System.out.println("Welcome to the World of Zuul!");
-        System.out.println("World of Zuul is a new, incredibly boring adventure game.");
-        System.out.println("Type 'help' if you need help.");
+        System.out.println("¡¡¡Bienvenido al mundo de Zuul!!!");
+        System.out.println("En esta ocasión en un castillo medieval, recien liberado de tu cautiverio en el calabozo.");
+        System.out.println("Escribe 'help' si necesitas ayuda.");
         System.out.println();
-        System.out.println("You are " + currentRoom.getDescription());
-        System.out.print("Exits: ");
-        if(currentRoom.northExit != null) {
-            System.out.print("north ");
-        }
-        if(currentRoom.eastExit != null) {
-            System.out.print("east ");
-        }
-        if(currentRoom.southExit != null) {
-            System.out.print("south ");
-        }
-        if(currentRoom.westExit != null) {
-            System.out.print("west ");
-        }
-        System.out.println();
+        zuulPlayer.look();
     }
 
     /**
@@ -108,7 +129,7 @@ public class Game
         boolean wantToQuit = false;
 
         if(command.isUnknown()) {
-            System.out.println("I don't know what you mean...");
+            System.out.println("No se lo que quieres decir...");
             return false;
         }
 
@@ -117,7 +138,25 @@ public class Game
             printHelp();
         }
         else if (commandWord.equals("go")) {
-            goRoom(command);
+            zuulPlayer.goRoom(command);
+        }
+        else if (commandWord.equals("look")) {  
+            zuulPlayer.look();
+        }
+        else if (commandWord.equals("eat")) {   
+            zuulPlayer.eat();
+        }
+        else if (commandWord.equals("back")) {  
+            zuulPlayer.back();
+        }
+        else if (commandWord.equals("take")) {
+            zuulPlayer.pickUpItem(command);
+        }
+        else if (commandWord.equals("drop")) {
+            zuulPlayer.dropItem(command);
+        }
+        else if (commandWord.equals("items")) {  
+            zuulPlayer.items();
         }
         else if (commandWord.equals("quit")) {
             wantToQuit = quit(command);
@@ -135,63 +174,10 @@ public class Game
      */
     private void printHelp() 
     {
-        System.out.println("You are lost. You are alone. You wander");
-        System.out.println("around at the university.");
+        System.out.println("Estas perdido. Estas solo. Estas deambulando dentro del castillo");
         System.out.println();
-        System.out.println("Your command words are:");
-        System.out.println("   go quit help");
-    }
-
-    /** 
-     * Try to go in one direction. If there is an exit, enter
-     * the new room, otherwise print an error message.
-     */
-    private void goRoom(Command command) 
-    {
-        if(!command.hasSecondWord()) {
-            // if there is no second word, we don't know where to go...
-            System.out.println("Go where?");
-            return;
-        }
-
-        String direction = command.getSecondWord();
-
-        // Try to leave current room.
-        Room nextRoom = null;
-        if(direction.equals("north")) {
-            nextRoom = currentRoom.northExit;
-        }
-        if(direction.equals("east")) {
-            nextRoom = currentRoom.eastExit;
-        }
-        if(direction.equals("south")) {
-            nextRoom = currentRoom.southExit;
-        }
-        if(direction.equals("west")) {
-            nextRoom = currentRoom.westExit;
-        }
-
-        if (nextRoom == null) {
-            System.out.println("There is no door!");
-        }
-        else {
-            currentRoom = nextRoom;
-            System.out.println("You are " + currentRoom.getDescription());
-            System.out.print("Exits: ");
-            if(currentRoom.northExit != null) {
-                System.out.print("north ");
-            }
-            if(currentRoom.eastExit != null) {
-                System.out.print("east ");
-            }
-            if(currentRoom.southExit != null) {
-                System.out.print("south ");
-            }
-            if(currentRoom.westExit != null) {
-                System.out.print("west ");
-            }
-            System.out.println();
-        }
+        System.out.println("Tus comandos son:");
+        System.out.println(parser.getCommands());
     }
 
     /** 
@@ -202,7 +188,7 @@ public class Game
     private boolean quit(Command command) 
     {
         if(command.hasSecondWord()) {
-            System.out.println("Quit what?");
+            System.out.println("¿Que quieres quitar?");
             return false;
         }
         else {
