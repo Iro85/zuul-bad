@@ -20,13 +20,15 @@ public class Game{
     private Parser parser;
     //Jugador
     private Player zuulPlayer;
+    //peso maximo transportable para un jugador base sin caracteristicas especiales
+    private static final int MAX_WEIGHT = 30;
 
     /**
      * Create the game and initialise its internal map.
      */
     public Game(){
         parser = new Parser();
-        zuulPlayer = new Player(createRooms());
+        zuulPlayer = new Player(createRooms(), MAX_WEIGHT);
     }
 
     /**

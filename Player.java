@@ -18,17 +18,18 @@ public class Player{
     // ArryList donde guardamos los objetos que transportamos
     private ArrayList<Item> itemBackpack;
     // Peso maximo que podemos transportar
-    private static final int MAX_WEIGHT = 30;
+    private int maxWeight;
     //distancia entre el nombre de item y su peso
     private static final int DISTANCE = 23;
     
     /**
      * Constructor for objects of class Player
      */
-    public Player(Room currentRoom){
+    public Player(Room currentRoom, int maxWeight){
         this.currentRoom = currentRoom;
         itemBackpack = new ArrayList<Item>();
         previousRoom = new Stack<Room>();
+        this.maxWeight = maxWeight;
     }
 
     /** 
@@ -99,13 +100,12 @@ public class Player{
                     //comprobamos si el objeto puede ser cogido y si el peso no excederia el maximo que podamos llevar
                     if(!itemSelected.getItemCanBePickedUp()){
                         System.out.println("El objeto es muy pesado para llevarlo.");
-                    }else {
-                    //if(canTake(itemSelected)){
+                    }else if(canTake(itemSelected)){
                         itemBackpack.add(itemSelected);
                         currentRoom.deleteItem(itemSelected);
                         System.out.println("Objeto " + itemSelected.getItemDescription() + " cogido");
-                    //}else{
-                    //    System.out.println("El objeto supera nuestra capacidad."); 
+                    }else{
+                        System.out.println("El objeto supera nuestra capacidad."); 
                     }
                 }
             }else{
@@ -182,11 +182,11 @@ public class Player{
     public void items(){
         //Si hay objetos los mostramos junto con sus caracteristicas y el peso total que haya
         if(itemBackpack.size() > 0){
-            System.out.println("Tienes en la mochila:");
+            System.out.println("Contenido de la mochila:");
             for(Item itemTemp : itemBackpack){
-                System.out.println("Objeto - " + itemTemp.getItemDescription() + getBlankSpaces(itemTemp.getItemDescription() ) + "| Peso - " + itemTemp.getItemWeight());
+                System.out.println("   " + itemTemp.getItemDescription() + getBlankSpaces(itemTemp.getItemDescription() ) + "| Peso - " + itemTemp.getItemWeight());
             }
-            System.out.println("                            Peso total - " + loadedWeight());
+            System.out.println("                      Peso total - " + loadedWeight());
         }else{
             System.out.println("No tienes objetos en la mochila.");
         }
@@ -201,7 +201,7 @@ public class Player{
         // Comprobamos si el peso de la mochila sumado al del objeto no excede del maximo transportable y devolvemos true si no lo excede 
         // o false en caso contrario
         boolean acceptedWeight = false;
-        if(loadedWeight() + item.getItemWeight() <= MAX_WEIGHT){
+        if(loadedWeight() + item.getItemWeight() <= maxWeight){
             acceptedWeight = true;
         }
         return acceptedWeight;
