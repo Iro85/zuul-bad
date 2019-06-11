@@ -99,12 +99,13 @@ public class Player{
                     //comprobamos si el objeto puede ser cogido y si el peso no excederia el maximo que podamos llevar
                     if(!itemSelected.getItemCanBePickedUp()){
                         System.out.println("El objeto es muy pesado para llevarlo.");
-                    }else if(canTake(itemSelected)){
+                    }else {
+                    //if(canTake(itemSelected)){
                         itemBackpack.add(itemSelected);
                         currentRoom.deleteItem(itemSelected);
                         System.out.println("Objeto " + itemSelected.getItemDescription() + " cogido");
-                    }else{
-                        System.out.println("El objeto supera nuestra capacidad."); 
+                    //}else{
+                    //    System.out.println("El objeto supera nuestra capacidad."); 
                     }
                 }
             }else{
