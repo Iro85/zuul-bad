@@ -56,7 +56,7 @@ public class Game{
         establos.addItem(new Item ("montura", "montura de cuero", 5, true));
         granSalonReal.addItem(new Item ("trono", "trono del rey", 50, false));
         capilla.addItem(new Item ("cruz", "cruz cristiana", 25, false));
-        capilla.addItem(new Item ("caliz", "caliz sagrado", 5, true));
+        capilla.addItem(new Item ("caliz", "caliz con vino sagrado", 5, true));
         capilla.addItem(new Item ("virgen", "estatua de la virgen maria", 35, false));
         capilla.addItem(new Item ("bancos", "bancos antiguos", 60, false));
         cocina.addItem(new Item ("cazuela", "cazuela mediana", 10, true));
@@ -161,6 +161,9 @@ public class Game{
         }
         else if (commandWord.equals("items")) {  
             zuulPlayer.items();
+        }
+        else if (commandWord.equals("drink")) {  
+            zuulPlayer.drink(command);
         }
         else if (commandWord.equals("quit")) {
             wantToQuit = quit(command);

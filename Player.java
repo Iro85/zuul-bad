@@ -21,7 +21,7 @@ public class Player{
     private int maxWeight;
     //distancia entre el nombre de item y su peso
     private static final int DISTANCE = 23;
-    
+
     /**
      * Constructor for objects of class Player
      */
@@ -68,7 +68,7 @@ public class Player{
             look();
         }
     }
-    
+
     /** 
      * Print information of the location
      */
@@ -82,7 +82,7 @@ public class Player{
     public void eat(){
         System.out.println("Has comido ahora y ya no tienes hambre.");
     }
-    
+
     /**
      * Metodo de acciones para cuando ejecutamos el comando take.
      * @param command El comando ha ser procesado.
@@ -143,7 +143,7 @@ public class Player{
             return;
         }
     }
-    
+
     /**
      * Metodo para buscar un item en la mochila.
      * @param name El nombre del item que buscamos.
@@ -158,7 +158,7 @@ public class Player{
         }
         return itemSelected;
     }
-    
+
     /**
      * Metodo que elimina un item de la mochila.
      * @param command El nombre del item que buscamos.
@@ -221,7 +221,7 @@ public class Player{
         }
         return weight;
     }
-    
+
     /**
      * Metodo que nos devuelve los espacios en blanco necesarios para que quede colocada la lista de items.
      * @param name El nombre del item que se va a poner.
@@ -233,5 +233,31 @@ public class Player{
             blankSpaces += " ";
         }
         return blankSpaces;
+    }
+
+    /**
+     * Metodo de acciones para cuando ejecutamos el comando drink.
+     * Bebemos el caliz y sube la capacidad de llevar mas peso.
+     * @param command El comando ha ser procesado.
+     */
+    public void drink(Command command){
+        if(command.hasSecondWord()){
+            String itemName = command.getSecondWord();
+            // buscamos el objeto en la mochila para beberlo
+            Item itemSelected = searchItem(itemName);
+            if (itemSelected == null){ 
+                System.out.println("El objeto no esta en la mochila.");
+            }else if (!itemSelected.getItemId().equals("caliz")) {
+                System.out.println("El objeto " + itemSelected.getItemDescription() + " no se puede beber");
+            }else{
+                deleteItem(itemSelected);
+                maxWeight *= 2;
+                System.out.println("Te has bebido el " + itemSelected.getItemDescription() + " y ahora puedes llevar el doble de peso.");
+            }
+        }else{
+            // si no tiene segunda palabra no sabemos que coger...
+            System.out.println("¿Que quieres beber?");
+            return;
+        }
     }
 }
