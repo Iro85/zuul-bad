@@ -121,6 +121,7 @@ public class Player{
 
     /**
      * Metodo de acciones para cuando ejecutamos el comando drop.
+     * Metodo para soltar objetos.
      * @param command El comando ha ser procesado.
      */
     public void dropItem(Command command){
