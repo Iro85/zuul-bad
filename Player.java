@@ -53,6 +53,9 @@ public class Player{
             previousRoom.push(currentRoom);
             currentRoom = nextRoom;
             look();
+            if(currentRoom.getDescription().equals("una caverna oscura")){
+                cavernaFound();
+            }
         }
     }
 
@@ -94,6 +97,7 @@ public class Player{
                 String itemName = command.getSecondWord();
                 // buscamos el objeto en la habitacion para cogerlo
                 Item itemSelected = currentRoom.searchItem(itemName);
+                checkSpecialItems(itemSelected);
                 if(itemSelected == null) {
                     System.out.println("El objeto no esta en la habitacion.");
                 }else{
@@ -259,5 +263,66 @@ public class Player{
             System.out.println("¿Que quieres beber?");
             return;
         }
+    }
+
+    /**
+     * Metodo de acciones para cuando encontramosun Item especial.
+     * @param Item El item a analizar.
+     */
+    public void checkSpecialItems(Item itemTemp){
+        if(itemTemp != null && itemTemp.getItemId().equals("caliz")){
+            System.out.println("Tiene un extraño vino en su interior......tal vez deberia beberlo a ver que pasa....");
+        }else if(itemTemp != null && itemTemp.getItemId().equals("cruz")){
+            System.out.println("No la puedes transportar pero al intentar levantarla has encontrado una llave...puede que ayude a liberarte....");
+            Item key = new Item ("llave", "llave maestra de plata", 5, true);
+            if(canTake(key)){
+                itemBackpack.add(key);
+            }else{
+                currentRoom.addItem(key);
+            }
+        }
+    }
+
+    /**
+     * Metodo de acciones para cuando ejecutamos el comando use.
+     * Comprobamos si estamos en la entrada y si usamos la llave para poder salir y finalizar el juego.
+     * @param command El comando ha ser procesado.
+     */
+    public void use(Command command){
+        if(command.hasSecondWord()){
+            String itemName = command.getSecondWord();
+            // buscamos el objeto en la mochila para beberlo
+            Item itemSelected = searchItem(itemName);
+            if (itemSelected == null){ 
+                System.out.println("El objeto no esta en la mochila.");
+            }else if (!itemSelected.getItemId().equals("llave")) {
+                System.out.println("El objeto " + itemSelected.getItemDescription() + " no se puede usar");
+            }else if (!currentRoom.getDescription().equals("la puerta de entrada")){
+                System.out.println("La llave no se puede usar en esta habitacion.");
+            }else{
+                System.out.println("¡¡¡Has encontrado la salida!!!");
+                System.out.println("¡¡¡Conseguiste salir con vida del castillo!!!");
+                System.out.println(".......................................");
+                System.out.println("Se escucha un pequeño temblor....y se abre una pequeña abertura a tu lado");
+                System.out.println("Ahora esta en tus manos salir y escapar (quit) o entrar y arriesgarte......");
+                Room caverna = new Room("una caverna oscura");
+                caverna.addItem(new Item ("piedras", "piedras y mas piedras", 100, false));
+                currentRoom.setExit("west", caverna);
+            }
+        }else{
+            // si no tiene segunda palabra no sabemos que coger...
+            System.out.println("¿Que quieres usar?");
+            return;
+        }
+    }
+
+    /*
+     * Mensajes de la caverna
+     */
+    private void cavernaFound(){
+        System.out.println("Al entrar fuerzas el pequeño agujero y se derrumba tras de ti dejandote atrapado.");
+        System.out.println("Consigues agarrar una pequeña antorcha pero solo ves piedras haya donde mires.....");
+        System.out.println("Te das cuenta de que te has quedado atrapado y de que ya no tienes salida.");
+        System.out.println("Pudistes salir hacia la libertad pero el ansia te pudo y ahora estas atrapado para toda la eternidad.....");
     }
 }

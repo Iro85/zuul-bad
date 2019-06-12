@@ -109,10 +109,13 @@ public class Room{
      */
     public String getExitString(){
         // Recorre el hashMaps de salidas de la habitacion y devuelve el conjunto de las que no son null
-        String exits = "";
-        for(Map.Entry<String, Room> exitTemp : roomExits.entrySet()){
-            if(exitTemp.getValue() != null)
-                exits += " " + exitTemp.getKey();
+        String exits = " No hay salida";
+        if(roomExits.size() > 0){
+            exits = "";
+            for(Map.Entry<String, Room> exitTemp : roomExits.entrySet()){
+                if(exitTemp.getValue() != null)
+                    exits += " " + exitTemp.getKey();
+            }
         }
         return exits;
     }

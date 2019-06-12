@@ -118,6 +118,7 @@ public class Game{
         System.out.println();
         System.out.println("¡¡¡Bienvenido al mundo de Zuul!!!");
         System.out.println("En esta ocasión en un castillo medieval, recien liberado de tu cautiverio en el calabozo.");
+        System.out.println("¡¡¡Busca la llave para escapar!!!");
         System.out.println("Escribe 'help' si necesitas ayuda.");
         System.out.println();
         zuulPlayer.look();
@@ -165,6 +166,9 @@ public class Game{
         else if (commandWord.equals("drink")) {  
             zuulPlayer.drink(command);
         }
+        else if (commandWord.equals("use")) {  
+            zuulPlayer.use(command);
+        }
         else if (commandWord.equals("quit")) {
             wantToQuit = quit(command);
         }
@@ -202,4 +206,5 @@ public class Game{
             return true;  // signal that we want to quit
         }
     }
+
 }
